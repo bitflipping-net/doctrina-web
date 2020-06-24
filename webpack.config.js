@@ -86,12 +86,20 @@ module.exports = (env, argv) => ({
         new HtmlWebpackPlugin({
             template: './public/index.html'
         }),
-        // new CopyPlugin([
-        //     {
-        //         from: "public/favicon",
-        //         to: "favicon/"
-        //     },
-        //     "public/robots.txt"
-        // ]),
+        new CopyPlugin({
+            patterns:[
+                {
+                    from: "public/favicon",
+                    to: "favicon/"
+                },
+                {
+                    from: "public/img",
+                    to: "img/"
+                },
+                "public/robots.txt",
+                "public/security.txt"
+
+            ]
+        }),
     ].filter(p => p)
 });

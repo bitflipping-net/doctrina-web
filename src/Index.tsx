@@ -5,6 +5,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import configureStore, { history } from "./redux/store";
+import "./tailwind.css";
 
 const store = configureStore()
 
