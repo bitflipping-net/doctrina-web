@@ -1,5 +1,45 @@
 import { hot } from "react-hot-loader/root";
-import React from "react";
+import React, { useState } from "react";
+import { useTransition, animated } from "react-spring";
+import Stats from "./components/DataDisplay/Stats";
+import Dashboard from "./pages/Dashboard";
+
+const ProfileDropdown = () =>
+{
+    const [show, setShow] = useState(false);
+
+    const transitions = useTransition(show, null, {
+        initial: { transitionTimingFunction: "ease-out", transitionDuration: "200ms" },
+        from: { transform: "scale(0.95)", opacity: "0" },
+        enter: { transform: "scale(1)", opacity: "1" },
+        update: { transitionDuration: "75ms", transitionTimingFunction: "ease-out" },
+        leave: { opacity: "0", transform: "scale(0.95)" }
+    })
+
+    return (
+        <div className="ml-3 relative">
+            <div>
+                <button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true"
+                    onClick={() => setShow(!show)}>
+                    <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+                </button>
+            </div>
+            {transitions.map(({ item, key, props }) =>
+                item &&
+                <animated.div key={key} style={props} className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+                    <div className="py-1 rounded-md bg-white shadow-xs">
+                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                        >Your Profile</a>
+                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                        >Settings</a>
+                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out"
+                        >Sign out</a>
+                    </div>
+                </animated.div>
+            )}
+        </div>
+    )
+};
 
 const App = () =>
 {
@@ -14,18 +54,14 @@ const App = () =>
                                 <img className="hidden lg:block h-8 w-auto" src="/img/logos/workflow-logo-on-white.svg" alt="Workflow logo" />
                             </div>
                             <div className="hidden sm:ml-6 sm:flex">
-                                <a href="#" className="inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
-                                    Dashboard
-            </a>
-                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Statements
-            </a>
-                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Agents
-            </a>
-                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
-                                    Activities
-            </a>
+                                <a href="#" className="inline-flex items-center px-1 pt-1 border-b-2 border-indigo-500 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out"
+                                >Dashboard</a>
+                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                                >Statements</a>
+                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                                >Agents</a>
+                                <a href="#" className="ml-8 inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out"
+                                >Activities</a>
                             </div>
                         </div>
                         <div className="hidden sm:ml-6 sm:flex sm:items-center">
@@ -36,33 +72,7 @@ const App = () =>
                             </button>
 
                             {/* <!-- Profile dropdown --> */}
-                            <div className="ml-3 relative">
-                                <div>
-                                    <button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                        <img className="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-                                    </button>
-                                </div>
-                                {/* <!--
-              Profile dropdown panel, show/hide based on dropdown state.
-
-              Entering: "transition ease-out duration-200"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            --> */}
-                                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
-                                    <div className="py-1 rounded-md bg-white shadow-xs">
-                                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Your Profile
-                </a>
-                                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Settings
-                </a>
-                                        <a href="#" className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign out
-                </a>
-                                    </div>
-                                </div>
-                            </div>
+                            <ProfileDropdown />
                         </div>
                         <div className="-mr-2 flex items-center sm:hidden">
                             {/* <!-- Mobile menu button --> */}
@@ -87,14 +97,14 @@ const App = () =>
     --> */}
                 <div className="hidden sm:hidden">
                     <div className="pt-2 pb-3">
-                        <a href="#" className="block pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out">Dashboard
-        </a>
-                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Team
-        </a>
-                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Projects
-        </a>
-                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out">Calendar
-        </a>
+                        <a href="#" className="block pl-3 pr-4 py-2 border-l-4 border-indigo-500 text-base font-medium text-indigo-700 bg-indigo-50 focus:outline-none focus:text-indigo-800 focus:bg-indigo-100 focus:border-indigo-700 transition duration-150 ease-in-out"
+                        >Dashboard</a>
+                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
+                        >Team</a>
+                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
+                        >Projects</a>
+                        <a href="#" className="mt-1 block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:text-gray-800 hover:bg-gray-50 hover:border-gray-300 focus:outline-none focus:text-gray-800 focus:bg-gray-50 focus:border-gray-300 transition duration-150 ease-in-out"
+                        >Calendar</a>
                     </div>
                     <div className="pt-4 pb-3 border-t border-gray-200">
                         <div className="flex items-center px-4">
@@ -102,41 +112,24 @@ const App = () =>
                                 <img className="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
                             </div>
                             <div className="ml-3">
-                                <div className="text-base font-medium leading-6 text-gray-800">Tom Cook
-            </div>
-                                <div className="text-sm font-medium leading-5 text-gray-500">tom@example.com
-            </div>
+                                <div className="text-base font-medium leading-6 text-gray-800">Tom Cook</div>
+                                <div className="text-sm font-medium leading-5 text-gray-500">tom@example.com</div>
                             </div>
                         </div>
                         <div className="mt-3" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                            <a href="#" className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Your Profile
-          </a>
-                            <a href="#" className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Settings
-          </a>
-                            <a href="#" className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem">Sign out
-          </a>
+                            <a href="#" className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem"
+                            >Your Profile</a>
+                            <a href="#" className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem"
+                            >Settings</a>
+                            <a href="#" className="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" role="menuitem"
+                            >Sign out</a>
                         </div>
                     </div>
                 </div>
             </nav>
 
             <div className="py-10">
-                <header>
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <h1 className="text-3xl font-bold leading-tight text-gray-900">
-                            Dashboard
-        </h1>
-                    </div>
-                </header>
-                <main>
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        {/* <!-- Replace with your content --> */}
-                        <div className="px-4 py-8 sm:px-0">
-                            <div className="border-4 border-dashed border-gray-200 rounded-lg h-96"></div>
-                        </div>
-                        {/* <!-- /End replace --> */}
-                    </div>
-                </main>
+                <Dashboard />
             </div>
         </div>
     )
